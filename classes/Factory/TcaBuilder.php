@@ -37,7 +37,7 @@ return [
                 case 'int':
                     $syntax .= "
                     '".$column['name']."' => [
-                    'label' => '".$this->convertColName($column['name'])."',
+                    'label' => '".$tablename.".".$column['name']."',
                     'config' => [
                         'type' => 'text',
                         'size' => '50',
@@ -49,7 +49,7 @@ return [
                 default:
                    $syntax .= "
                     '".$column['name']."' => [
-                    'label' => '".$this->convertColName($column['name'])."',
+                    'label' => '".$tablename.".".$column['name']."',
                     'config' => [
                         'type' => 'text',
                         'size' => '50',
