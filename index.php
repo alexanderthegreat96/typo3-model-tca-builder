@@ -126,7 +126,7 @@ require "autoload.php";
                                     <tr>
                                         <td>Paste SQL Table Structure : </td>
                                         <td>
-                                            <textarea name="sql_code" placeholder="Paste your code here..." class="form-control" style="min-height: 400px; resize: none;"></textarea>
+                                            <textarea name="sql_code" placeholder="Paste your code here..." class="form-control" style="min-height: 400px; resize: none;" required=""></textarea>
                                         </td>
                                     </tr>
                                     <tr>

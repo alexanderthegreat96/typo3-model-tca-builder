@@ -76,7 +76,8 @@ require "autoload.php";
                             $tables = Requests::getArgument('tables','POST');
                             $doctrine = new \LexSystems\Core\System\Factories\DoctrineModelFactorySql($sql_code);
                             $tca = new \LexSystems\Core\System\Factories\TcaBuilderSql($sql_code);
-                            if($doctrine->getTableNames() && $tca->getTableNames())
+                            $xlf = new \LexSystems\Core\System\Factories\XlfBuilderSql($sql_code);
+                            if($doctrine->getTableNames() && $tca->getTableNames() && $xlf->getTableNames())
                             {
                                 if($tables)
                                 {
@@ -100,11 +101,20 @@ require "autoload.php";
                                     }
                                     echo '</ul>';
                                     echo '<hr/>';
+                                    $xlfFiles = $xlf->buildPreferential($tables);
+                                    echo '<h5>XLF Builder was started...</h5><br/>';
+                                    echo '<ul>';
+                                    foreach($xlfFiles as $xlfFile)
+                                    {
+                                        echo '<li>'.$xlfFile.'</li>';
+                                    }
+                                    echo '</ul>';
+                                    echo '<hr/>';
 
                                     echo '<h5>Generating archive...</h5>';
                                     $filename = time().'.zip';
                                     $archive = new GoodZipArchive( __DIR__.'/Generated', __DIR__.'/temp/'.$filename);
-                                    echo '<a href="temp/'.$filename.'">Download Models + TCA</a>';
+                                    echo '<a href="temp/'.$filename.'">Download Models + TCA + XLF</a>';
                                     echo '<hr/>';
 
 
@@ -154,6 +164,27 @@ require "autoload.php";
                                     }
                                     echo '</ul><br/>';
 
+                                    echo '<ul>';
+                                    foreach ($xlfFiles as $xlfFile)
+                                    {
+                                        if(file_exists(__DIR__.'/Generated/Xlf/'.$xlfFile.'.xml'))
+                                        {
+
+                                            if(unlink(__DIR__.'/Generated/Xlf/'.$xlfFile.'.xml'))
+                                            {
+                                                echo '<li>Generated/Xlf/'. $xlfFile.'.xml</li>';
+                                            }
+                                            else
+                                            {
+                                                echo '<li>UNABLE TO DELETE:: Generated/Xlf/'. $xlfFile.'.xml</li>';
+                                            }
+                                        }
+                                        else
+                                        {
+                                            echo '<li>UNABLE TO DELETE:: Generated/Xlf/'. $xlfFile.'.xml :: FILE NOT FOUND</li>';
+                                        }
+                                    }
+                                    echo '</ul><br/>';
 
 
                                 }
