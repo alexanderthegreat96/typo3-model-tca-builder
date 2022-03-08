@@ -77,8 +77,11 @@ if(!\dthtoolkit\Session::getParam('mysql_db'))
                         $doctrine = new \LexSystems\Core\System\Factories\DoctrineModelFactory();
                         $tca = new \LexSystems\Core\System\Factories\TcaBuilder();
                         $xlf = new \LexSystems\Core\System\Factories\XlfBuilder();
+                        $xlfFe = new \LexSystems\Core\System\Factories\XlfBuilderFrontend();
+
                         $tcaFiles = $tca->buildPreferential($tables);
                         $xlfFiles = $xlf->buildPreferential($tables);
+                        $xlfFeFiles = $xlfFe->buildPreferential($tables);
 
                         echo '<h5>TCA Builder was started...</h5><br/>';
                         echo '<ul>';
@@ -103,6 +106,11 @@ if(!\dthtoolkit\Session::getParam('mysql_db'))
                         foreach($xlfFiles as $xlfFile)
                         {
                             echo '<li>'.$xlfFile.'</li>';
+                        }
+
+                        foreach($xlfFeFiles as $xlfFeFile)
+                        {
+                            echo '<li>'.$xlfFeFile.'</li>';
                         }
                         echo '</ul>';
                         echo '<hr/>';
@@ -156,6 +164,27 @@ if(!\dthtoolkit\Session::getParam('mysql_db'))
                                 echo '<li>UNABLE TO DELETE:: Generated/Xlf/'. $xlfFile.'.xml :: FILE NOT FOUND</li>';
                             }
                         }
+
+                        foreach ($xlfFeFiles as $xlfFeFile)
+                        {
+                            if(file_exists(__DIR__.'/Generated/Xlf/'.$xlfFeFile.'.xml'))
+                            {
+
+                                if(unlink(__DIR__.'/Generated/Xlf/'.$xlfFeFile.'.xml'))
+                                {
+                                    echo '<li>Generated/Xlf/'. $xlfFeFile.'.xml</li>';
+                                }
+                                else
+                                {
+                                    echo '<li>UNABLE TO DELETE:: Generated/Xlf/'. $xlfFeFile.'.xml</li>';
+                                }
+                            }
+                            else
+                            {
+                                echo '<li>UNABLE TO DELETE:: Generated/Xlf/'. $xlfFeFile.'.xml :: FILE NOT FOUND</li>';
+                            }
+                        }
+
                         echo '</ul><br/>';
 
                         echo '<ul>';

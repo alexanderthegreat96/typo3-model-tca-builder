@@ -1,7 +1,7 @@
 <?php
 namespace LexSystems\Core\System\Factories;
 
-class XlfBuilder extends AbstractModelFactory
+class XlfBuilderFrontendSql extends AbstractModelFactorySql
 {
     public function writeFile(string $tablename = '', array $columns = [], array $columnNames = [])
     {
@@ -18,7 +18,7 @@ class XlfBuilder extends AbstractModelFactory
         foreach ($columns as $column)
         {
             $syntax .= '
-            <trans-unit id="'.$tablename.'.'.$column['name'].'">
+            <trans-unit id="form.'.$column['name'].'">
                 <source>'.$this->convertColName($column['name']).'</source>
             </trans-unit>
             ';
@@ -30,9 +30,9 @@ class XlfBuilder extends AbstractModelFactory
         ";
 
 
-        if(!file_exists(__DIR__ . '/../../Generated/Xlf/' .$tablename.'.xml'))
+        if(!file_exists(__DIR__ . '/../../Generated/Xlf/' .$tablename.'_frontend.xml'))
         {
-            $try = file_put_contents(__DIR__ . '/../../Generated/Xlf/' .$tablename.'.xml',$syntax);
+            $try = file_put_contents(__DIR__ . '/../../Generated/Xlf/' .$tablename.'_frontend.xml',$syntax);
             if($try)
             {
                 return $tablename . " has been created in XLF \n";
