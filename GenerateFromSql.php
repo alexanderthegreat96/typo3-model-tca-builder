@@ -87,7 +87,7 @@ require "autoload.php";
                                     echo '<ul>';
                                     foreach($doctrineModels as $doctrineModel)
                                     {
-                                        echo '<li>'.$doctrineModel.'</li>';
+                                        echo '<li>'.$doctrineModel.'.php</li>';
                                     }
                                     echo '</ul>';
                                     echo '<hr/>';
@@ -98,7 +98,7 @@ require "autoload.php";
                                     echo '<ul>';
                                     foreach($tcaFiles as $tcaFile)
                                     {
-                                        echo '<li>'.$tcaFile.'</li>';
+                                        echo '<li>'.$tcaFile.'.php</li>';
                                     }
                                     echo '</ul>';
                                     echo '<hr/>';
@@ -109,12 +109,12 @@ require "autoload.php";
 
                                     foreach($xlfFiles as $xlfFile)
                                     {
-                                        echo '<li>'.$xlfFile.'</li>';
+                                        echo '<li>'.$xlfFile.'.xml</li>';
                                     }
 
                                     foreach($xlfFeFiles as $xlfFeFile)
                                     {
-                                        echo '<li>'.$xlfFeFile.'</li>';
+                                        echo '<li>'.$xlfFeFile.'_frontend.xml</li>';
                                     }
                                     echo '</ul>';
                                     echo '<hr/>';
@@ -196,21 +196,21 @@ require "autoload.php";
 
                                     foreach ($xlfFeFiles as $xlfFeFile)
                                     {
-                                        if(file_exists(__DIR__.'/Generated/Xlf/'.$xlfFeFile.'.xml'))
+                                        if(file_exists(__DIR__.'/Generated/Xlf/'.$xlfFeFile.'_frontend.xml'))
                                         {
 
-                                            if(unlink(__DIR__.'/Generated/Xlf/'.$xlfFeFile.'.xml'))
+                                            if(unlink(__DIR__.'/Generated/Xlf/'.$xlfFeFile.'_frontend.xml'))
                                             {
-                                                echo '<li>Generated/Xlf/'. $xlfFeFile.'.xml</li>';
+                                                echo '<li>Generated/Xlf/'. $xlfFeFile.'_frontend.xml</li>';
                                             }
                                             else
                                             {
-                                                echo '<li>UNABLE TO DELETE:: Generated/Xlf/'. $xlfFeFile.'.xml</li>';
+                                                echo '<li>UNABLE TO DELETE:: Generated/Xlf/'. $xlfFeFile.'_frontend.xml</li>';
                                             }
                                         }
                                         else
                                         {
-                                            echo '<li>UNABLE TO DELETE:: Generated/Xlf/'. $xlfFeFile.'.xml :: FILE NOT FOUND</li>';
+                                            echo '<li>UNABLE TO DELETE:: Generated/Xlf/'. $xlfFeFile.'_frontend.xml :: FILE NOT FOUND</li>';
                                         }
                                     }
                                     echo '</ul><br/>';
