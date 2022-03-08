@@ -12,6 +12,7 @@ class DoctrineModelFactory extends AbstractModelFactory
      */
     private function writeClass(string $className = '',string $tablename = '', array $columns = [], array $columnNames = [])
     {
+
         $template =
             '<?php
 /*
@@ -181,6 +182,8 @@ $template.= '
 }
 ?>
 ';
+
+
         if(!file_exists(__DIR__ . '/../../Generated/Models/' .$className.'.php'))
         {
             $try = file_put_contents(__DIR__ . '/../../Generated/Models/' .$className.'.php',$template);
@@ -236,7 +239,7 @@ $template.= '
             foreach ($tableNames as $tableName)
             {
 
-                $className = $this->convertTableName($tableName);
+                $className = $this->generateClassNameFromString($tableName);
                 $columns = $this->showTableColums($tableName,false);
                 $columnNames = $this->showTableColums($tableName);
                 $this->writeClass($className,$tableName,$columns,$columnNames);

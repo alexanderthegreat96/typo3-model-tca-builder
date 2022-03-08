@@ -183,6 +183,8 @@ class '.$className.' extends AbstractEntity
 }
 ?>
 ';
+
+
         if(!file_exists(__DIR__ . '/../../Generated/Models/' .$className.'.php'))
         {
             $try = file_put_contents(__DIR__ . '/../../Generated/Models/' .$className.'.php',$template);
@@ -213,7 +215,7 @@ class '.$className.' extends AbstractEntity
             $i = 1;
             foreach ($tableNames as $tableName)
             {
-                $className = $this->convertTableName($tableName);
+                $className = $this->generateClassNameFromString($tableName);
                 $columns = $this->showTableColums($tableName,false);
                 $columnNames = $this->showTableColums($tableName);
                 $this->writeClass($className,$tableName,$columns,$columnNames);

@@ -78,10 +78,21 @@ require "autoload.php";
                             $tca = new \LexSystems\Core\System\Factories\TcaBuilderSql($sql_code);
                             $xlf = new \LexSystems\Core\System\Factories\XlfBuilderSql($sql_code);
                             $xlf_fe = new \LexSystems\Core\System\Factories\XlfBuilderFrontendSql($sql_code);
-                            if($doctrine->getTableNames() && $tca->getTableNames() && $xlf->getTableNames() && $xlf_fe->getTableNames())
+                            $repository = new \LexSystems\Core\System\Factories\RepositoryFactorySql($sql_code);
+                            if($doctrine->getTableNames() && $tca->getTableNames() && $xlf->getTableNames() && $xlf_fe->getTableNames() && $repository->getTableNames())
                             {
                                 if($tables)
                                 {
+                                    $doctrineRepositoryFiles = $repository->build($tables);
+                                    echo '<h5>Doctrine repository builder was started...</h5><br/>';
+                                    echo '<ul>';
+                                    foreach($doctrineRepositoryFiles as $doctrineRepositoryFile)
+                                    {
+                                        echo '<li>'.$doctrineRepositoryFile.'.php</li>';
+                                    }
+                                    echo '</ul>';
+                                    echo '<hr/>';
+
                                     $doctrineModels = $doctrine->build($tables);
                                     echo '<h5>Doctrine model builder was started...</h5><br/>';
                                     echo '<ul>';
@@ -123,7 +134,7 @@ require "autoload.php";
 
                                     $filename = time().'.zip';
                                     $archive = new GoodZipArchive( __DIR__.'/Generated', __DIR__.'/temp/'.$filename);
-                                    echo '<a href="temp/'.$filename.'">Download Models + TCA + XLF</a>';
+                                    echo '<a href="temp/'.$filename.'">Download Repositories + Models + TCA + XLF</a>';
                                     echo '<hr/>';
 
 
@@ -169,6 +180,28 @@ require "autoload.php";
                                         else
                                         {
                                             echo '<li>UNABLE TO DELETE:: Generated/Models/'. $doctrineModel.'.php :: FILE NOT FOUND</li>';
+                                        }
+                                    }
+                                    echo '</ul><br/>';
+
+                                    echo '<ul>';
+                                    foreach ($doctrineRepositoryFiles as $doctrineRepositoryFile)
+                                    {
+                                        if(file_exists(__DIR__.'/Generated/Repositories/'.$doctrineRepositoryFile.'.php'))
+                                        {
+
+                                            if(unlink(__DIR__.'/Generated/Repositories/'.$doctrineRepositoryFile.'.php'))
+                                            {
+                                                echo '<li>Generated/Models/'. $doctrineRepositoryFile.'.php</li>';
+                                            }
+                                            else
+                                            {
+                                                echo '<li>UNABLE TO DELETE:: Generated/Repositories/'. $doctrineRepositoryFile.'.php</li>';
+                                            }
+                                        }
+                                        else
+                                        {
+                                            echo '<li>UNABLE TO DELETE:: Generated/Repositories/'. $doctrineRepositoryFile.'.php :: FILE NOT FOUND</li>';
                                         }
                                     }
                                     echo '</ul><br/>';

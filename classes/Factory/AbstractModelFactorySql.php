@@ -34,6 +34,24 @@ class AbstractModelFactorySql
     }
 
     /**
+     * @param string $string
+     * @return string
+     */
+    public function generateClassNameFromString(string $string = '')
+    {
+        if(explode('_',$string))
+        {
+            $parts = explode('_',$string);
+            $parts = array_filter($parts);
+            return ucfirst(end($parts));
+        }
+        else
+        {
+            return $string;
+        }
+    }
+
+    /**
      * @param string $tablename
      * @param bool $justNames
      * @param array $columns
