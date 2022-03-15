@@ -8,21 +8,52 @@ use Requests;
 class AbstractModelFactory
 {
     /**
+     * @var
+     */
+    protected $extKey;
+
+    /**
      * Abstract model factory contstuctor
      */
-    public function __construct()
+    public function __construct(string $extKey = '')
     {
         $this->mysql_host = Session::getParam('mysql_host');
         $this->mysql_user = Session::getParam('mysql_user');
         $this->mysql_pass = Session::getParam('mysql_pass');
         $this->mysql_db = Session::getParam('mysql_db');
-        
+        $this->extKey = $extKey ? $extKey : 'my_extension';
         $this->connection  =  mysqli_connect($this->mysql_host,$this->mysql_user,$this->mysql_pass,$this->mysql_db);
         if(!$this->connection)
         {
             die(mysqli_error($this->connection));
         }
     }
+
+    /**
+     * @param string $tablename
+     * @return string|null
+     */
+    public function detectExtensionName(string $tablename = '')
+    {
+        if(strpos($tablename,'tx_'))
+        {
+            if(explode('_',$tablename))
+            {
+                $nameparts = explode('_',$tablename);
+                $name = $nameparts[1];
+                return $name;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        else
+        {
+            return null;
+        }
+    }
+
     /**
      * @param array $tables
      * @return array

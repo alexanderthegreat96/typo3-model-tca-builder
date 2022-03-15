@@ -16,7 +16,7 @@ return [
         'cruser_id' => 'cruser_id',
         'delete' => 'deleted',
         'searchFields' => 'uid',
-        'iconfile' => '',
+        'iconfile' => 'EXT:".$this->extKey."/Resources/Public/Icons/Extension.svg',
     ],
     'types' => [
         '0' =>
@@ -25,6 +25,8 @@ return [
             ],
     ],
     ";
+
+        $LLL = 'LLL:EXT:'.$this->extKey.'/Resources/Private/Language/locallang_db.xlf';
 
         $syntax .= "
         'columns' => 
@@ -37,7 +39,7 @@ return [
                 case 'int':
                     $syntax .= "
                     '".$column['name']."' => [
-                    'label' => '".$tablename.".".$column['name']."',
+                    'label' => '".$LLL.":".$tablename.".".$column['name']."',
                     'config' => [
                         'type' => 'text',
                         'size' => '50',
@@ -49,7 +51,7 @@ return [
                 default:
                    $syntax .= "
                     '".$column['name']."' => [
-                    'label' => '".$tablename.".".$column['name']."',
+                    'label' => '".$LLL.":".$tablename.".".$column['name']."',
                     'config' => [
                         'type' => 'text',
                         'size' => '50',

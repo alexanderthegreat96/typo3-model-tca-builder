@@ -11,9 +11,21 @@ class AbstractModelFactorySql
      */
     protected $tableDefinitions;
 
-    public function __construct(string $sql = '')
+    /**
+     * @var
+     */
+
+    protected $extKey;
+
+    /**
+     * @param string $sql
+     * @param string $extKey
+     */
+
+    public function __construct(string $sql = '', string $extKey = '')
     {
         $this->tableDefinitions = SqlParser::getTableDefinition($sql);
+        $this->extKey = $extKey ? $extKey : 'my_extension';
     }
 
     /**
@@ -48,6 +60,31 @@ class AbstractModelFactorySql
         else
         {
             return $string;
+        }
+    }
+
+    /**
+     * @param string $tablename
+     * @return string|null
+     */
+    public function detectExtensionName(string $tablename = '')
+    {
+        if(strpos($tablename,'tx_'))
+        {
+            if(explode('_',$tablename))
+            {
+                $nameparts = explode('_',$tablename);
+                $name = $nameparts[1];
+                return $name;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        else
+        {
+            return null;
         }
     }
 

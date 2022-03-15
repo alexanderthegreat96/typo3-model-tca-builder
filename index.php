@@ -66,19 +66,29 @@ require "autoload.php";
                 <div class="card-header">SQL Parser</div>
                 <div class="card-body">
                     <?php
-                        if(Requests::hasArgument('parse','POST') && Requests::hasArgument('sql_code','POST') && Requests::getArgument('sql_code','POST'))
+                        if(Requests::hasArgument('parse','POST') &&
+                            Requests::hasArgument('sql_code','POST') &&
+                            Requests::getArgument('sql_code','POST') &&
+                            Requests::hasArgument('ext_key','POST') &&
+                            Requests::getArgument('ext_key','POST')
+                        )
                         {
                             $sql_code = Requests::getArgument('sql_code','POST');
+                            $ext_key = strtolower(Requests::getArgument('ext_key','POST'));
+
+                            echo '<h6>Extension key:';
+                            echo '<b>'.$ext_key.'</b>';
+
                             echo '<h6>Formatted SQL:</h6>';
                             echo \dthtoolkit\SqlFormatter::format($sql_code);
-                            $factory = new \LexSystems\Core\System\Factories\AbstractModelFactorySql($sql_code);
+                            $factory = new \LexSystems\Core\System\Factories\AbstractModelFactorySql($sql_code,$ext_key);
                             $tables = $factory->getTableNames();
-
 
                             if($tables)
                             {
                                 echo '<form action="GenerateFromSql.php" method="POST">';
                                 echo '<input type="hidden" name="sql_code" value="'.$sql_code.'">';
+                                echo '<input type="hidden" name="ext_key" value="'.$ext_key.'">';
                                 echo '<button type="submit" name="go" class="btn btn-success btn-sm">Go for it</button>';
                                 echo '<hr/>';
                                 echo '<ul>';
@@ -124,7 +134,11 @@ require "autoload.php";
                             <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="POST">
                                 <table class="table table-bordered table-hover">
                                     <tr>
-                                        <td>Paste SQL Table Structure : </td>
+                                        <td class="w-25">Extension Key (ext-key found in composer.json) <small>It will be used to generate the language entries</small></td>
+                                        <td><input type="text" class="form-control form-control-sm" minlength="3" name="ext_key" required="" placeholder="ex: my_extension"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="w-25">Paste <b>ext_tables.sql</b> structure  <br/><small class="text-danger">No comments allowed.</small> :</td>
                                         <td>
                                             <textarea name="sql_code" placeholder="Paste your code here..." class="form-control" style="min-height: 400px; resize: none;" required=""></textarea>
                                         </td>

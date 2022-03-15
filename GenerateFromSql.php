@@ -68,14 +68,22 @@ require "autoload.php";
                 <div class="card-header">SQL Parser</div>
                 <div class="card-body">
                     <?php
-                        if(Requests::hasArgument('go','POST') && Requests::hasArgument('sql_code','POST') && Requests::getArgument('sql_code','POST')
-                            && Requests::hasArgument('tables','POST') && Requests::getArgument('tables', 'POST')
+                        if
+                        (
+                                    Requests::hasArgument('go','POST') &&
+                                    Requests::hasArgument('sql_code','POST') &&
+                                    Requests::getArgument('sql_code','POST') &&
+                                    Requests::hasArgument('tables','POST') &&
+                                    Requests::getArgument('tables', 'POST') &&
+                                    Requests::hasArgument('ext_key','POST') &&
+                                    Requests::getArgument('ext_key','POST')
                         )
                         {
                             $sql_code = Requests::getArgument('sql_code','POST');
+                            $ext_key = Requests::getArgument('ext_key','POST');
                             $tables = Requests::getArgument('tables','POST');
                             $doctrine = new \LexSystems\Core\System\Factories\DoctrineModelFactorySql($sql_code);
-                            $tca = new \LexSystems\Core\System\Factories\TcaBuilderSql($sql_code);
+                            $tca = new \LexSystems\Core\System\Factories\TcaBuilderSql($sql_code,$ext_key);
                             $xlf = new \LexSystems\Core\System\Factories\XlfBuilderSql($sql_code);
                             $xlf_fe = new \LexSystems\Core\System\Factories\XlfBuilderFrontendSql($sql_code);
                             $repository = new \LexSystems\Core\System\Factories\RepositoryFactorySql($sql_code);
@@ -132,7 +140,7 @@ require "autoload.php";
 
                                     echo '<h5>Generating archive...</h5>';
 
-                                    $filename = time().'.zip';
+                                    $filename = $ext_key.'_t3mf_'.time().'.zip';
                                     $archive = new GoodZipArchive( __DIR__.'/Generated', __DIR__.'/temp/'.$filename);
                                     echo '<a href="temp/'.$filename.'">Download Repositories + Models + TCA + XLF</a>';
                                     echo '<hr/>';
