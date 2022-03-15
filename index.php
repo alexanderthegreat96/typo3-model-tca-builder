@@ -15,6 +15,7 @@ require "autoload.php";
     <title>Typo3 Model Builder - Sql Parser</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="js/datatables.min.css"/>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
 
     <style>
         .bd-placeholder-img {

@@ -15,6 +15,7 @@ $session = \dthtoolkit\Session::getSession();
     <meta name="generator" content="Hugo 0.88.1">
     <title>Typo3 Model Builder  - Config</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
 
 
     <style>
