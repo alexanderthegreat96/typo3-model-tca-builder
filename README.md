@@ -1,8 +1,8 @@
 
-# Typo3 Model & TCA Builder
+# Typo3 Model + TCA + Repository + Xlf Builder
 
 Generates a downloadable zip archive from given ext_tables.sql code or by selecting one or
-more tables.
+more tables. Why use this? So you can code more efficient, not harder.
 
 
 ## Installation
@@ -12,6 +12,8 @@ Create a new folder on your web dir and download the latest release. Upload the 
 ```
 chmod 777 Generated/Models
 chmod 777 Generated/TCA
+chmod 777 Generated/Repositories
+chmod 777 Generated/Xlf
 chmod 777 temp
 ```
 
@@ -24,6 +26,8 @@ This will print out an easy to ready array
  - Ability to connect to a given database given the credentials 
  to select one or more existing tables and generate the classes
  - Dinamically Generate Models
+ - Dinamically Generates Repositories
+ - Dinamically Generates Xlf Files
  - Dinamically Generate TCA
 
 ```
