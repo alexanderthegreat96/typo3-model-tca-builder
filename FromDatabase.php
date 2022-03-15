@@ -17,7 +17,7 @@ if(!\dthtoolkit\Session::getParam('mysql_db'))
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.88.1">
-    <title>Typo3 Model + TCA Builder  - From Database</title>
+    <title>Typo3 Model Builder  - From Database</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="js/datatables.min.css"/>
 
@@ -45,7 +45,7 @@ if(!\dthtoolkit\Session::getParam('mysql_db'))
 <body>
 
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">Typo3 Model + TCA Builder Beta</a>
+    <a class="navbar-brand" href="#">Typo3 Model Builder</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>

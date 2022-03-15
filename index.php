@@ -12,7 +12,7 @@ require "autoload.php";
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.88.1">
-    <title>Typo3 Model + TCA Builder  - Parse SQL</title>
+    <title>Typo3 Model Builder - Sql Parser</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="js/datatables.min.css"/>
 
@@ -40,7 +40,7 @@ require "autoload.php";
 <body>
 
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">Typo3 Model + TCA Builder Beta</a>
+    <a class="navbar-brand" href="#">Typo3 Model Builder</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -131,6 +131,17 @@ require "autoload.php";
                         else
                         {
                             ?>
+                            <div class="alert alert-info">
+                                This tool will generate:
+                                <ul>
+                                    <li>Repository Classes</li>
+                                    <li>Model Classes</li>
+                                    <li>TCA Files</li>
+                                    <li>Frontend XLF Files</li>
+                                    <li>Backend XLF Files</li>
+                                </ul>
+                                for your given tables. Just paste the ext_tables.sql code bellow.
+                            </div>
                             <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="POST">
                                 <table class="table table-bordered table-hover">
                                     <tr>
