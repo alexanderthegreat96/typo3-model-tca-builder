@@ -12,22 +12,37 @@ class AbstractModelFactorySql
     protected $tableDefinitions;
 
     /**
-     * @var
+     * @var string
      */
 
     protected $extKey;
+
+    /**
+     * @var string
+     */
+
+    protected $vendor;
 
     /**
      * @param string $sql
      * @param string $extKey
      */
 
-    public function __construct(string $sql = '', string $extKey = '')
+    public function __construct(string $sql = '', string $extKey = '', string $vendor = '')
     {
         $this->tableDefinitions = SqlParser::getTableDefinition($sql);
         $this->extKey = $extKey ? $extKey : 'my_extension';
+        $this->vendor = $vendor ? $vendor : 'MyVendor';
     }
 
+    /**
+     * @param string $extkey
+     * @return array|string|string[]
+     */
+    public function convertExtKeyToPluginName(string $extkey = '')
+    {
+        return str_replace('_','',$extkey);
+    }
     /**
      * @param array $tables
      * @return array
@@ -172,6 +187,21 @@ class AbstractModelFactorySql
         }
     }
 
+    /**
+     * @return string
+     */
+    public function generateNamespace()
+    {
+        $parts =
+            [
+                ucfirst($this->vendor),
+                $this->convertTableName($this->extKey),
+                'Domain'
+            ];
+
+        return implode("\\",$parts);
+    }
+    
     /**
      * @param string $colname
      * @return string

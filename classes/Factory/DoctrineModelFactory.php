@@ -28,7 +28,7 @@ class DoctrineModelFactory extends AbstractModelFactory
  * The TYPO3 project - inspiring people to share!
  */
  
-namespace MyVendor\MyExtension\Domain\Model;
+namespace '.$this->generateNamespace().'\Model;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 class '.$className.' extends AbstractEntity
 {

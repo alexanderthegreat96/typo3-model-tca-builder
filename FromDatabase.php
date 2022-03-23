@@ -72,16 +72,17 @@ if(!\dthtoolkit\Session::getParam('mysql_db'))
                 <div class="card-header">Table view</div>
                 <div class="card-body">
                     <?php
-                    if(isset($_GET['go']) && isset($_GET['tables']) && isset($_GET['ext_key']))
+                    if(isset($_GET['go']) && isset($_GET['tables']) && isset($_GET['ext_key']) && isset($_GET['vendor']))
                     {
                         $tables = $_GET['tables'];
                         $ext_key = strtolower($_GET['ext_key']);
+                        $vendor = $_GET['vendor'];
 
-                        $doctrine = new \LexSystems\Core\System\Factories\DoctrineModelFactory();
+                        $doctrine = new \LexSystems\Core\System\Factories\DoctrineModelFactory($ext_key,$vendor);
                         $tca = new \LexSystems\Core\System\Factories\TcaBuilder($ext_key);
                         $xlf = new \LexSystems\Core\System\Factories\XlfBuilder();
                         $xlfFe = new \LexSystems\Core\System\Factories\XlfBuilderFrontend();
-                        $repo = new \LexSystems\Core\System\Factories\RepositoryFactory();
+                        $repo = new \LexSystems\Core\System\Factories\RepositoryFactory($ext_key,$vendor);
 
                         $tcaFiles = $tca->buildPreferential($tables);
                         $xlfFiles = $xlf->buildPreferential($tables);
@@ -270,6 +271,10 @@ if(!\dthtoolkit\Session::getParam('mysql_db'))
                                      Listing tables from : <b><?php echo \dthtoolkit\Session::getParam('mysql_db');?></b><br/>
                                     <button type="submit" name="go" class="btn btn-success">Go for it</button>
                                     <hr/>
+                                    <div class="form-group">
+                                        <label>Vendor (PSR4 Vendor found in composer.json) <small>It will be used to generate the namespace for models and repositories</small></label>
+                                        <input type="text" class="form-control form-control-sm" minlength="3" name="vendor" required="" placeholder="ex: Arxia"/>
+                                    </div>
                                     <div class="form-group">
                                         <label><b>Extension Key</b> (ext-key found in composer.json) <small>It will be used to generate the language entries</small></label>
                                         <input type="text" class="form-control form-control-sm" minlength="3" name="ext_key" required="" placeholder="ex: my_extension"/>

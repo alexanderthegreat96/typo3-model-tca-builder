@@ -13,20 +13,42 @@ class AbstractModelFactory
     protected $extKey;
 
     /**
+     * @var
+     */
+
+    protected $vendor;
+
+    /**
      * Abstract model factory contstuctor
      */
-    public function __construct(string $extKey = '')
+    public function __construct(string $extKey = '', string $vendor = '')
     {
         $this->mysql_host = Session::getParam('mysql_host');
         $this->mysql_user = Session::getParam('mysql_user');
         $this->mysql_pass = Session::getParam('mysql_pass');
         $this->mysql_db = Session::getParam('mysql_db');
         $this->extKey = $extKey ? $extKey : 'my_extension';
+        $this->vendor = $vendor ? $vendor : 'MyVendor';
         $this->connection  =  mysqli_connect($this->mysql_host,$this->mysql_user,$this->mysql_pass,$this->mysql_db);
         if(!$this->connection)
         {
             die(mysqli_error($this->connection));
         }
+    }
+
+    /**
+     * @return string
+     */
+    public function generateNamespace()
+    {
+        $parts =
+            [
+                ucfirst($this->vendor),
+                $this->convertTableName($this->extKey),
+                'Domain'
+            ];
+
+        return implode("\\",$parts);
     }
 
     /**
@@ -52,6 +74,15 @@ class AbstractModelFactory
         {
             return null;
         }
+    }
+
+    /**
+     * @param string $extkey
+     * @return array|string|string[]
+     */
+    public function convertExtKeyToPluginName(string $extkey = '')
+    {
+        return str_replace('_','',$extkey);
     }
 
     /**

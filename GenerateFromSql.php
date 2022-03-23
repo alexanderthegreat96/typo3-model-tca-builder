@@ -77,17 +77,24 @@ require "autoload.php";
                                     Requests::hasArgument('tables','POST') &&
                                     Requests::getArgument('tables', 'POST') &&
                                     Requests::hasArgument('ext_key','POST') &&
-                                    Requests::getArgument('ext_key','POST')
+                                    Requests::getArgument('ext_key','POST') &&
+                                    Requests::hasArgument('vendor','POST') &&
+                                    Requests::getArgument('vendor','POST')
+
                         )
                         {
                             $sql_code = Requests::getArgument('sql_code','POST');
                             $ext_key = Requests::getArgument('ext_key','POST');
+                            $vendor = Requests::getArgument('vendor','POST');
+
                             $tables = Requests::getArgument('tables','POST');
-                            $doctrine = new \LexSystems\Core\System\Factories\DoctrineModelFactorySql($sql_code);
+
+                            $doctrine = new \LexSystems\Core\System\Factories\DoctrineModelFactorySql($sql_code,$ext_key,$vendor);
                             $tca = new \LexSystems\Core\System\Factories\TcaBuilderSql($sql_code,$ext_key);
                             $xlf = new \LexSystems\Core\System\Factories\XlfBuilderSql($sql_code);
+
                             $xlf_fe = new \LexSystems\Core\System\Factories\XlfBuilderFrontendSql($sql_code);
-                            $repository = new \LexSystems\Core\System\Factories\RepositoryFactorySql($sql_code);
+                            $repository = new \LexSystems\Core\System\Factories\RepositoryFactorySql($sql_code,$ext_key,$vendor);
                             if($doctrine->getTableNames() && $tca->getTableNames() && $xlf->getTableNames() && $xlf_fe->getTableNames() && $repository->getTableNames())
                             {
                                 if($tables)

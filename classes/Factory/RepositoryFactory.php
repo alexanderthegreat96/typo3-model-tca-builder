@@ -12,6 +12,8 @@ class RepositoryFactory extends AbstractModelFactory
      */
     private function writeClass(string $className = '')
     {
+        $pluginName = 'tx_'.$this->convertExtKeyToPluginName($this->extKey);
+
         $template = '<?php ';
         $template .= '
 declare(strict_types=1);
@@ -29,29 +31,65 @@ declare(strict_types=1);
  * The TYPO3 project - inspiring people to share!
  */
 
-namespace MyVendor\MyExtension\Domain\Repository;
-
+namespace '.$this->generateNamespace().'\Repository;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 /**
  * '.$className.' repository
  */
 class '.$className.' extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
-    /*
+
+    /**
+     * @var int
+     */
+     
+     protected $currentPid;
+    
+    /**
      * Default ordering for all queries created by this repository
      */
     protected $defaultOrderings = array(
-        "name" => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING
+        "crdate" => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING
     );
+    
+    /**
+     * sets storage pid for given plugin
+     * based on typoscript
+     * do not forget to add -> tx_pluginnamehere{settings{storagePid = 123}}
+     */
+     
+    protected function getStoragePid()
+    {
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+        $configurationManager = $objectManager->get(ConfigurationManager::class);
+        $extbaseFrameworkConfiguration = $configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
+        if ($extbaseFrameworkConfiguration["plugin."]["'.$pluginName.'."]["settings."]["storagePid"]) {
+            $this->currentPid = $extbaseFrameworkConfiguration["plugin."]["'.$pluginName.'."]["settings."]["storagePid"];
+        } else {
+            $this->currentPid = 1;
+        }
 
+        return $this->currentPid;
+    }
+    
+    /**
+     * Initialize repository settings
+     */
+     
     public function initializeObject()
     {
         /** @var $querySettings \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings */ 
-        $querySettings = $this->objectManager->get("TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettingsInterface");
-        $querySettings->setRespectStoragePage(TRUE);
+        $querySettings = $this->objectManager->get("TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettingsInterface");
+        $querySettings->setRespectStoragePage(true);
+        $querySettings->setStoragePageIds([$this->getStoragePid()]);
         $this->setDefaultQuerySettings($querySettings);
     }
     
 }';
+
 
         if(!file_exists(__DIR__ . '/../../Generated/Repositories/' .$className.'.php'))
         {

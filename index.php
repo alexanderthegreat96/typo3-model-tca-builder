@@ -71,14 +71,20 @@ require "autoload.php";
                             Requests::hasArgument('sql_code','POST') &&
                             Requests::getArgument('sql_code','POST') &&
                             Requests::hasArgument('ext_key','POST') &&
-                            Requests::getArgument('ext_key','POST')
+                            Requests::getArgument('ext_key','POST') &&
+                            Requests::hasArgument('vendor','POST') &&
+                            Requests::getArgument('vendor','POST')
                         )
                         {
                             $sql_code = Requests::getArgument('sql_code','POST');
                             $ext_key = strtolower(Requests::getArgument('ext_key','POST'));
+                            $vendor = Requests::getArgument('vendor','POST');
 
                             echo '<h6>Extension key:';
-                            echo '<b>'.$ext_key.'</b>';
+                            echo '<b>'.$ext_key.'</b> <br/>';
+
+                            echo '<h6>Extension Vendor:';
+                            echo '<b>'.$vendor.'</b> <br/>';
 
                             echo '<h6>Formatted SQL:</h6>';
                             echo \dthtoolkit\SqlFormatter::format($sql_code);
@@ -89,6 +95,7 @@ require "autoload.php";
                             {
                                 echo '<form action="GenerateFromSql.php" method="POST">';
                                 echo '<input type="hidden" name="sql_code" value="'.$sql_code.'">';
+                                echo '<input type="hidden" name="vendor" value="'.$vendor.'">';
                                 echo '<input type="hidden" name="ext_key" value="'.$ext_key.'">';
                                 echo '<button type="submit" name="go" class="btn btn-success btn-sm">Go for it</button>';
                                 echo '<hr/>';
@@ -146,7 +153,11 @@ require "autoload.php";
                             <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="POST">
                                 <table class="table table-bordered table-hover">
                                     <tr>
-                                        <td class="w-25">Extension Key (ext-key found in composer.json) <small>It will be used to generate the language entries</small></td>
+                                        <td class="w-25">Vendor (PSR4 Vendor found in composer.json) <small>It will be used to generate the namespace for models and repositories</small></td>
+                                        <td><input type="text" class="form-control form-control-sm" minlength="3" name="vendor" required="" placeholder="ex: Arxia"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="w-25">Extension Key (ext-key found in composer.json)<br> <small>It will be used to generate the language entries, model and repository namespaces</small></td>
                                         <td><input type="text" class="form-control form-control-sm" minlength="3" name="ext_key" required="" placeholder="ex: my_extension"/></td>
                                     </tr>
                                     <tr>

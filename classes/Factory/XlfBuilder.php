@@ -14,7 +14,9 @@ class XlfBuilder extends AbstractModelFactory
             <authorEmail>myEmail@someEmail.com</authorEmail>
         </header>
         <body>
-            ';
+          <trans-unit id="'.$tablename.'">
+                <source>'.$tablename.'</source>
+            </trans-unit>';
         foreach ($columns as $column)
         {
             $syntax .= '

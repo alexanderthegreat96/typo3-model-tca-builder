@@ -5,11 +5,13 @@ class TcaBuilder extends AbstractModelFactory
 {
     public function writeFile(string $tablename = '', array $columns = [], array $columnNames = [])
     {
+        $LLL = 'LLL:EXT:'.$this->extKey.'/Resources/Private/Language/locallang_db.xlf';
+
         $syntax =
             "<?php
 return [
         'ctrl' => [
-        'title' => '".$tablename."',
+        'title' => '".$LLL.":".$tablename."',
         'label' => 'uid',
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
@@ -26,7 +28,7 @@ return [
     ],
     ";
 
-        $LLL = 'LLL:EXT:'.$this->extKey.'/Resources/Private/Language/locallang_db.xlf';
+
 
         $syntax .= "
         'columns' => 
